@@ -8,6 +8,13 @@
 
 如果要用匿名聊天室功能，请填写 lib/chat.js 中存储数据的数据库的信息。
 
+```bash
+$ # 克隆仓库
+$ git clone https://gitlab.com/lihai2333/telegram-xiaolanjing-bot
+$ # 进入仓库目录
+$ cd telegram-xiaolanjing-bot/
+```
+
 #### 运行
 
 ```bash
