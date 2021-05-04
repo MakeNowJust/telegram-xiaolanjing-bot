@@ -8,8 +8,8 @@ const bot = new Telegraf(''); /* 填写机器人的 API Token */
 
 /**
  * 聊天服务。
- * @param {string} message 是用户给机器人的消息。
- * @return {object} 思知机器人的回复。
+ * @param {String} message 用户给机器人的消息。
+ * @return {Object} 思知机器人的回复。
  */
 async function getmessage(message) {
   let reply;
@@ -20,9 +20,9 @@ async function getmessage(message) {
 }
 
 /**
- * 获取 ip 地址信息
- * @param {string} ip 地址。
- * @return {object} ip.sb 返回的数据。
+ * 获取 IP 地址信息
+ * @param {String} ip IP 地址。
+ * @return {Object} ip.sb 返回的数据。
  */
 async function geoip(ip) {
   let data;
