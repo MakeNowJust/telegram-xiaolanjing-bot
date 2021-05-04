@@ -110,9 +110,7 @@ bot.command('about', (ctx) => {
   ctx.reply(`我的头像由[胖鲸](https://t.me/Superbigbig)设计。
 我的程序由[厉害](https://t.me/lihai2333)编写，服务器也由他提供。
 
-我公开了我能够公开的信息：
-• 程序用 NodeJS 编写，版本是 14.15.4
-• 用了 Telegraf,node-fetch,dns,mysql,qrcode 模块
+开源地址：https://gitlab.com/lihai2333/telegram-xiaolanjing-bot
 
 关注我的[官方频道](https://t.me/xiaolanjing)，获取我的开发进展。
 `, {
