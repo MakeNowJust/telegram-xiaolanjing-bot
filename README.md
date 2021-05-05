@@ -10,7 +10,7 @@
 
 ```bash
 $ # 克隆仓库
-$ git clone https://gitlab.com/lihai2333/telegram-xiaolanjing-bot
+$ git clone https://github.com/lihai233333/telegram-xiaolanjing-bot
 $ # 进入仓库目录
 $ cd telegram-xiaolanjing-bot/
 ```
