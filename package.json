@@ -7,7 +7,7 @@
   "author": "lihai2333 <lihaibigbig@gmail.com>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "mysql": "^2.18.1",
+    "sqlite3": "^5.0.2",
     "node-fetch": "^2.6.1",
     "qrcode": "^1.4.4",
     "telegraf": "^4.3.0"
