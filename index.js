@@ -338,7 +338,7 @@ bot.command('qrcode', (ctx) => {
         if (chat.permissions.can_send_media_messages) {
           qr();
         } else {
-          ctx.getChatMember(942941243).then((chatmember) => {
+          ctx.getChatMember(/* 填写机器人的 ID */).then((chatmember) => {
             if (chatmember.status === 'administrator') {
               qr();
             } else {
