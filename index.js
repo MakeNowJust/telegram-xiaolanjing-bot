@@ -65,7 +65,7 @@ bot.command('ip', (ctx) => {
       ctx.reply('您输入的 IP 地址不能查询哦！',
         { reply_to_message_id: ctx.message.message_id });
     } else if (text[1]
-      .replace(/^[1-9]\d{1,2}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/, '')
+      .replace(/^[1-9]\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/, '')
     ) {
       ctx.reply('您输入的 IP 地址貌似有点问题？',
         { reply_to_message_id: ctx.message.message_id });
