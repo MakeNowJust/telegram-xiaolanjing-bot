@@ -1,10 +1,11 @@
 const { Telegraf } = require('telegraf');
+const config = require('./config');
 const fetch = require('node-fetch');
 const dns = require('dns');
 const QRCode = require('qrcode');
 const chat = require('./lib/chat');
 
-const bot = new Telegraf(''); /* 填写机器人的 API Token */
+const bot = new Telegraf(config.token);
 
 /**
  * 聊天服务。
@@ -338,7 +339,7 @@ bot.command('qrcode', (ctx) => {
         if (chat.permissions.can_send_media_messages) {
           qr();
         } else {
-          ctx.getChatMember(/* 填写机器人的 ID */).then((chatmember) => {
+          ctx.getChatMember(config.token.split(':')[0]).then((chatmember) => {
             if (chatmember.status === 'administrator') {
               qr();
             } else {
@@ -359,7 +360,7 @@ bot.command('qrcode', (ctx) => {
 // 聊天 Start \\
 bot.on('message', (ctx) => {
   if (ctx.message.reply_to_message) {
-    if (ctx.message.reply_to_message.from.id === 942941243) {
+    if (String(ctx.message.reply_to_message.from.id) === config.token.split(':')[0]) {
       getmessage(ctx.message.text).then((d) => {
         ctx.reply(d.data.info.text, { reply_to_message_id: ctx.message.message_id });
 

@@ -4,9 +4,7 @@
 
 #### 运行前
 
-请填写 index.js 中机器人的 API Token。
-
-如果要用匿名聊天室功能，请填写 lib/chat.js 中存储数据的数据库的信息。
+请填写 config.js 中的配置。
 
 ```bash
 $ # 克隆仓库
