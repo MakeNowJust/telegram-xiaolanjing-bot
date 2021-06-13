@@ -1,19 +1,23 @@
 const Rule = require('./../../../lib/rule.js');
 const { check } = require("@makenowjust-labo/recheck");
 
+function guolv(text) {
+  return text
+    .replace(/\//g, '//')
+    .replace(/_/g, '/_')
+    .replace(/%/g, '/%')
+    .replace(/"/g, '/\'')
+    .replace(/;/g, '/;')
+    .replace(/\[/g, '/[')
+    .replace(/\]/g, '/]')
+    .replace(/&/g, '/&')
+    .replace(/\(/g, '/(')
+    .replace(/\)/g, '/)');
+}
+
 module.exports = async (ctx) => {
-  function guolv(text) {
-    return text
-      .replace(/\//g, '//')
-      .replace(/_/g, '/_')
-      .replace(/%/g, '/%')
-      .replace(/"/g, '/\'')
-      .replace(/;/g, '/;')
-      .replace(/\[/g, '/[')
-      .replace(/\]/g, '/]')
-      .replace(/&/g, '/&')
-      .replace(/\(/g, '/(')
-      .replace(/\)/g, '/)');
+  if (ctx.chat.type === 'private') {
+    return ctx.reply('此命令只能在群组中使用', { reply_to_message_id: ctx.message.message_id });
   }
 
   ctx.replyWithChatAction('typing');
@@ -22,9 +26,7 @@ module.exports = async (ctx) => {
 
   const member = await ctx.getChatMember(ctx.message.from.id);
 
-  if (ctx.chat.type === 'private') {
-    ctx.reply('此命令只能在群组中使用', { reply_to_message_id: ctx.message.message_id });
-  } else if (options === '') {
+  if (options === '') {
     ctx.replyWithMarkdown('添加规则的方法请见 https://telegra.ph/小蓝鲸-addrule-命令使用方法-06-11', { reply_to_message_id: ctx.message.message_id });
   } else if (!['administrator', 'creator'].includes(member.status)) {
     ctx.reply('这个命令是给管理员用的，不是给你用的！', { reply_to_message_id: ctx.message.message_id });

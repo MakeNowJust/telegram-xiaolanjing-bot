@@ -13,7 +13,7 @@ module.exports = async (ctx) => {
     return ctx.reply('这个命令是给管理员用的，不是给你用的！', { reply_to_message_id: ctx.message.message_id });
   }
 
-  if (!ctx.message.text.split(' ')[1]) {
+  if (ctx.message.text.split(' ')[1].length === 1) {
     return ctx.replyWithMarkdown('规则删除方法：`/delrule 标识`', { reply_to_message_id: ctx.message.message_id });
   }
 
