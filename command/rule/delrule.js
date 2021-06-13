@@ -19,7 +19,7 @@ module.exports = async (ctx) => {
 
   const exist = await new Rule(ctx.chat.id).getRule(ctx.message.text.split(' ')[1]);
 
-  if (exist === 0) {
+  if (exist.length === 0) {
     return ctx.reply('该规则不存在', { reply_to_message_id: ctx.message.message_id });
   }
 
