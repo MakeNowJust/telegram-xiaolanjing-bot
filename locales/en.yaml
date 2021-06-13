@@ -1,7 +1,7 @@
 start: "I am a super cute little blue whale~"
 sl: "Please select the language you want to switch:"
 sls: "Language changed successfully!"
-help: "All commands\n/dns DNS Tools\n/ip Query IP address information\n/qrcode Generate QR code\n\n*pseudonym chat room*\n/amydata Get data\n/ac Register account\n/as Send message\n\n/locale switch language\n/help Get help\n/about About"
+help: "All commands\n/dns DNS Tools\n/ip Query IP address information\n/qrcode Generate QR code\n\n*Rule*\n/addrule Add rule\n/rulelist Rule list\n/delrule Delete rule\n\n*pseudonym chat room*\n/amydata Get data\n/ac Register account\n/as Send message\n\n/locale switch language\n/help Get help\n/about About"
 notQuery: "The IP address you entered cannot be checked"
 IPQueryProblem: "There seems to be something wrong with the IP address you entered?"
 Querying: "Querying..."
