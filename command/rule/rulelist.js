@@ -27,6 +27,10 @@ function rediction(text) {                                              return t
 }
 
 module.exports = async (ctx) => {
+  if (ctx.chat.type === 'private') {
+    return ctx.reply('此命令只能在群组中使用', { reply_to_message_id: ctx.message.message_id });
+  }
+
   ctx.replyWithChatAction('typing');
 
   const member = await ctx.getChatMember(ctx.message.from.id);
