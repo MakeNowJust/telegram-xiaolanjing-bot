@@ -1,6 +1,7 @@
 const Rule = require('./lib/rule.js');
 const detectAd = require('./lib/detect_ad.js');
 
+const fetch = require('node-fetch');
 const { sify } = require('chinese-conv');
 const { exec } = require('child_process');
 
@@ -41,9 +42,9 @@ function regexpRediction(text) {
     .replace(/>/g, '>');
 }
 
-function shellRediction(text) {
-  return text
-    .replace(/[\+加][Vv芯][Xx]?/g, '加微信')
+async function shellRediction(text) {
+  text = text
+    .replace(/[\+加][Vv]?[Xx信芯]?/g, '加微信')
     .replace(/\+[Qq][Qq]?/g, '加QQ')
     .replace(/"/g, '')
     .replace(/'/g, '')
@@ -71,8 +72,12 @@ function shellRediction(text) {
     .replace(/{/g, '')
     .replace(/}/g, '')
     .replace(/~/g, '')
+    .replace(/🈵/g, '满')
     .replace(/🈴/g, '合')
     .replace(/🈶/g, '有');
+
+  text = await fetch(`http://127.0.0.1:8000/corrector?text=${text}`)
+  return text.text;
 }
 
 function messageReturn(results, ctx, i) {
@@ -80,6 +85,12 @@ function messageReturn(results, ctx, i) {
     ctx.reply(rediction(results['return'].slice(results['return'].search(':') + 1)), { reply_to_message_id: ctx.message.message_id });
   } else if (results['return'].split(':')[0] === 'DELETE') {
     ctx.deleteMessage();
+
+    if (results['return'].split(':')[1]) {
+      ctx.reply(rediction(results['return'].slice(results['return'].search(':') + 1)));
+    }
+  } else if (results['return'].split(':')[0] === 'BAN') {
+    ctx.kickChatMember(ctx.message.from.id, 0);
 
     if (results['return'].split(':')[1]) {
       ctx.reply(rediction(results['return'].slice(results['return'].search(':') + 1)));
@@ -96,7 +107,9 @@ module.exports = (ctx) => {
             if (new RegExp(regexpRediction(results[i].rule.slice(results[i].rule.indexOf(':') + 1))).test(ctx.message.text)) {
               messageReturn(results[i], ctx);
             }
-          } else if (results[i].rule.split(':')[0] === 'AD') {
+          }
+
+          if (results[i].rule.split(':')[0] === 'AD') {
             if (!ctx.message.text) continue;
 
             exec(`python -c "import re;re.sub('[a-zA-Z0-9_]+|\W', '', '${shellRediction(ctx.message.text)}')"`, (err, stdout) => {

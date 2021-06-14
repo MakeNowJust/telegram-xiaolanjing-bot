@@ -27,11 +27,13 @@ module.exports = async (ctx) => {
   const member = await ctx.getChatMember(ctx.message.from.id);
 
   if (options === '') {
-    ctx.replyWithMarkdown('添加规则的方法请见 https://telegra.ph/小蓝鲸-addrule-命令使用方法-06-11', { reply_to_message_id: ctx.message.message_id });
-  } else if (!['administrator', 'creator'].includes(member.status)) {
+    return ctx.replyWithMarkdown('添加规则的方法请见 https://telegra.ph/小蓝鲸-addrule-命令使用方法-06-11', { reply_to_message_id: ctx.message.message_id });
+  }
+
+  if (!['administrator', 'creator'].includes(member.status)) {
     ctx.reply('这个命令是给管理员用的，不是给你用的！', { reply_to_message_id: ctx.message.message_id });
   } else {
-    if (options.replace(/^(MESSAGE|AD):.*=>(DELETE|REPLY):.*$/, '') === '') {
+    if (options.replace(/^(MESSAGE|AD):.*=>(DELETE|REPLY|BAN):.*$/, '') === '') {
       if (check(options.slice(options.indexOf(':') + 1, options.search(/=>(DELETE|REPLY):.*$/)), '').status === 'vulnerable') {
         ctx.reply('添加失败，你写的正则表达式会使小蓝鲸遭受 ReDOS', { reply_to_message_id: ctx.message.message_id });
       } else {
