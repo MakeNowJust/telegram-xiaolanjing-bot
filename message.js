@@ -76,7 +76,7 @@ async function shellRediction(text) {
     .replace(/🈴/g, '合')
     .replace(/🈶/g, '有');
 
-  text = await fetch(`http://127.0.0.1:8000/corrector?text=${text}`)
+  text = await fetch(`http://127.0.0.1:5000/corrector?text=${text}`)
   return text.text;
 }
 
