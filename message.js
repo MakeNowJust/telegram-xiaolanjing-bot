@@ -42,7 +42,7 @@ function regexpRediction(text) {
     .replace(/>/g, '>');
 }
 
-async function shellRediction(text) {
+function shellRediction(text) {
   text = text
     .replace(/[\+加][Vv]?[Xx信芯]?/g, '加微信')
     .replace(/\+[Qq][Qq]?/g, '加QQ')
@@ -76,8 +76,7 @@ async function shellRediction(text) {
     .replace(/🈴/g, '合')
     .replace(/🈶/g, '有');
 
-  text = await fetch(`http://127.0.0.1:5000/corrector?text=${text}`)
-  return text.text;
+  return text;
 }
 
 function messageReturn(results, ctx, i) {
@@ -109,13 +108,15 @@ module.exports = (ctx) => {
             }
           }
 
-          if (results[i].rule.split(':')[0] === 'AD') {
+          if (results[i].rule.split(':')[0] === 'AD' && ctx.message.from.id !== 777000) {
             if (!ctx.message.text) continue;
 
-            exec(`python -c "import re;re.sub('[a-zA-Z0-9_]+|\W', '', '${shellRediction(ctx.message.text)}')"`, (err, stdout) => {
+            exec(`python -c "import re;print(re.sub('[a-zA-Z0-9_]+|\W', '', '${shellRediction(ctx.message.text)}'))"`, async (err, stdout) => {
               if (err) console.log(err);
 
-              if (detectAd(sify(stdout))) {
+              const ok = await detectAd(sify(stdout));
+
+              if (ok) {
                 messageReturn(results[i], ctx);
               }
             });
