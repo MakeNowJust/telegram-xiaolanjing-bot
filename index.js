@@ -1,7 +1,6 @@
 const { Telegraf } = require('telegraf');
 const TelegrafI18n = require('telegraf-i18n');
 const LocalSession = require('telegraf-session-local');
-const { generateUpdateMiddleware } = require('telegraf-middleware-console-time');
 
 const path = require('path');
 
@@ -44,7 +43,6 @@ const Id = Number(config.token.split(':')[0]);
 
 bot.use((new LocalSession({ database: 'session.json' })).middleware());
 bot.use(i18n.middleware());
-bot.use(generateUpdateMiddleware());
 
 function i18nRediction(text) {
   return text
