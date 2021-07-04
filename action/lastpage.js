@@ -1,5 +1,5 @@
 const { Markup } = require('telegraf');
-const Rule = require('./../../lib/rule.js');
+const Rule = require('./../lib/rule.js');
 
 function rediction(text) {                                              return text                                                             .replace(/\/_/g, '\\_')
     .replace(/\|/g, '\\|')

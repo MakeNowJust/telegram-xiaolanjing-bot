@@ -1,6 +1,8 @@
 const Rule = require('./lib/rule.js');
 const detectAd = require('./lib/detect_ad.js');
 
+const config = require('./config.js');
+
 const fetch = require('node-fetch');
 const { sify } = require('chinese-conv');
 const { exec } = require('child_process');
@@ -72,6 +74,7 @@ function shellRediction(text) {
     .replace(/{/g, '')
     .replace(/}/g, '')
     .replace(/~/g, '')
+    .replace(/\s/g, '')
     .replace(/🈵/g, '满')
     .replace(/🈴/g, '合')
     .replace(/🈶/g, '有');
@@ -97,43 +100,41 @@ function messageReturn(results, ctx, i) {
   }
 }
 
-module.exports = (ctx) => {
+module.exports = async (ctx) => {
   if (['group', 'supergroup'].includes(ctx.chat.type)) {
-    new Rule(ctx.chat.id).allRules()
-      .then((results) => {
-        for (let i = 0; i < results.length; i++) {
-          if (results[i].rule.split(':')[0] === 'MESSAGE') {
-            if (new RegExp(regexpRediction(results[i].rule.slice(results[i].rule.indexOf(':') + 1))).test(ctx.message.text)) {
-              messageReturn(results[i], ctx);
-            }
-          }
+    const list = await new Rule(ctx.chat.id).allRules();
 
-          if (results[i].rule.split(':')[0] === 'AD' && ctx.message.from.id !== 777000) {
-            if (!ctx.message.text) continue;
-
-            exec(`python -c "import re;print(re.sub('[a-zA-Z0-9_]+|\W', '', '${shellRediction(ctx.message.text)}'))"`, async (err, stdout) => {
-              if (err) console.log(err);
-
-              const ok = await detectAd(sify(stdout));
-
-              if (ok) {
-                messageReturn(results[i], ctx);
-              }
-            });
-          }
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].rule.split(':')[0] === 'MESSAGE') {
+        if (new RegExp(regexpRediction(list[i].rule.slice(list[i].rule.indexOf(':') + 1))).test(ctx.message.text)) {
+          messageReturn(list[i], ctx);
+          break;
         }
-      });
-  } else if (ctx.message.reply_to_message && ctx.chat.type === 'private') {
-    if (String(ctx.message.reply_to_message.from.id) === config.token.split(':')[0]) {
-      fetch(encodeURI(`https://api.ownthink.com/bot?appid=&userid=&spoken=${ctx.message.text}`))
-        .then((res) => res.json())
-        .then((json) => {
-          ctx.reply(json.data.info.text, { reply_to_message_id: ctx.message.message_id });
+      }
 
-          if (json.data.info.heuristic) {
-            ctx.reply(json.data.info.heuristic[0], { reply_to_message_id: ctx.message.message_id });
+      if (list[i].rule.split(':')[0] === 'AD' && ctx.message.from.id !== 777000) {
+        if (!ctx.message.text) continue;
+
+        exec(`python -c "import re;print(re.sub('[a-zA-Z0-9_]+|\W', '', '${shellRediction(ctx.message.text)}'))"`, async (err, stdout) => {
+          if (err) console.log(err);
+
+          const ok = await detectAd(sify(stdout));
+
+          if (ok) {
+            messageReturn(list[i], ctx);
           }
         });
+      }
     }
+  } else if (ctx.message?.reply_to_message && ctx.chat.type === 'private' && String(ctx.message?.reply_to_message.from.id) === config.token.split(':')[0]) {
+    fetch(encodeURI(`https://api.ownthink.com/bot?appid=&userid=&spoken=${ctx.message.text}`))
+      .then((res) => res.json())
+      .then((json) => {
+        ctx.reply(json.data.info.text, { reply_to_message_id: ctx.message.message_id });
+
+        if (json.data.info.heuristic) {
+          ctx.reply(json.data.info.heuristic[0], { reply_to_message_id: ctx.message.message_id });
+        }
+      });
   }
 }

@@ -1,7 +1,7 @@
 start: "我是一只超萌的小蓝鲸~"
 sl: "请选择你要切换的语言："
 sls: "语言更改成功！"
-help: "所有命令：\n/dns DNS 查询\n/ip 查询 IP地址信息\n/qrcode 生成二维码\n\n*规则*\n/addrule 添加规则\n/rulelist 列出规则\n/delrule 删除规则\n\n*化名聊天室*\n/amydata 获取数据\n/ac 注册账号\n/as 发送消息\n\n/locale 切换语言\n/help 获取帮助\n/about 关于"
+help: "所有命令：\n/dns DNS 查询\n/ip 查询 IP地址信息\n/qrcode 生成二维码\n\n*规则*\n/addrule 添加规则\n/rulelist 列出规则\n/delrule 删除规则\n\n*化名聊天室*\n/amydata 获取数据\n/ac 注册账号\n/as 发送消息\n\n/help 获取帮助\n/about 关于"
 notQuery: "您输入的 IP 地址不能查询哦"
 IPQueryProblem: "您输入的 IP 地址貌似有点问题？"
 Querying: "正在查询中..."
@@ -24,3 +24,4 @@ asHelp: "发送方法：`/as 目标用户代号 消息`\n或者用 `/as 目标�
 qrHelp: "使用方法：`/qrcode 内容 版本1~40`\n版本越大黑白块越多"
 notSendMedia: "在此群组我无法发送媒体消息"
 noVersion: "缺少版本"
+notAccount: "你还没有账号"

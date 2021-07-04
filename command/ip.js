@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
+const net = require('net');
 
 module.exports = (ctx) => {
-  const text = ctx.message.text.split(' ');
+  const text = ctx.message.text.replace(/\s{2,}/, ' ').split(' ');
 
   if (text[1]) {
     if (!text[1]
@@ -11,9 +12,7 @@ module.exports = (ctx) => {
       .replace(/^0\.\d{1,3}\.\d{1,3}\.\d{1,3}$/, '')
     ) {
       ctx.reply(ctx.i18n.t('notQuery'), { reply_to_message_id: ctx.message.message_id });
-    } else if (text[1]
-      .replace(/^((2(5[0-5]|[0-4]\d))|1?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|1?\d{1,2})){3}$/, '')
-    ) {
+    } else if (net.isIP(text[1]) === 0) {
       ctx.reply(ctx.i18n.t('IPQueryProblem'), { reply_to_message_id: ctx.message.message_id });
     } else {
       ctx.reply(ctx.i18n.t('Querying'), { reply_to_message_id: ctx.message.message_id }

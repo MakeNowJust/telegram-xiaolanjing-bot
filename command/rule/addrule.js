@@ -1,4 +1,4 @@
-const Rule = require('./../../../lib/rule.js');
+const Rule = require('./../../lib/rule.js');
 const { check } = require("@makenowjust-labo/recheck");
 
 function guolv(text) {

@@ -1,4 +1,4 @@
-const Rule = require('./../../../lib/rule.js');
+const Rule = require('./../../lib/rule.js');
 
 module.exports = async (ctx) => {
   if (ctx.chat.type === 'private') {

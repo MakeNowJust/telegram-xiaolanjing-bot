@@ -1,6 +1,7 @@
 const { Markup } = require('telegraf');
 
 module.exports = (ctx) => {
+  ctx.answerCbQuery();
   const lang = {
     'cn': '',
     'en': '',
@@ -12,11 +13,12 @@ module.exports = (ctx) => {
     lang.en = '✔️';
   }
 
-  ctx.reply(ctx.i18n.t('sl'), {
-    reply_to_message_id: ctx.message.message_id,
-    ...Markup.inlineKeyboard([
+  ctx.editMessageText(ctx.i18n.t('sl'), {
+    ...Markup.inlineKeyboard([[
       Markup.button.callback(`🇨🇳中文 ${lang.cn}`, 'chinese'),
       Markup.button.callback(`🇬🇧English ${lang.en}`, 'english')
-    ])
+    ], [
+      Markup.button.callback('返回', 'back')
+    ]])
   });
 }
