@@ -44,7 +44,7 @@ const Id = Number(config.token.split(':')[0]);
 
 bot.use((new LocalSession({ database: 'session.json' })).middleware());
 bot.use(limit({
-  window: 30000,
+  window: 6000,
   limit: 1,
   keyGenerator: (ctx) => ctx.chat.id.toString(),
   onLimitExceeded: () => {}
