@@ -1,6 +1,7 @@
 const { Telegraf } = require('telegraf');
 const TelegrafI18n = require('telegraf-i18n');
 const LocalSession = require('telegraf-session-local');
+const limit = require('telegraf-ratelimit');
 
 const path = require('path');
 
@@ -42,6 +43,12 @@ const bot = new Telegraf(config.token);
 const Id = Number(config.token.split(':')[0]);
 
 bot.use((new LocalSession({ database: 'session.json' })).middleware());
+bot.use(limit({
+  window: 30000,
+  limit: 1,
+  keyGenerator: (ctx) => ctx.chat.id.toString(),
+  onLimitExceeded: () => {}
+}));
 bot.use(i18n.middleware());
 
 function i18nRediction(text) {
