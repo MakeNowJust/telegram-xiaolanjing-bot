@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/xiaolanjing', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 const listSchema = mongoose.Schema({
@@ -17,16 +17,18 @@ const headSchema = mongoose.Schema({
 const listModel = conn.model('rules', listSchema);
 const headModel = conn.model('headRules', headSchema);
 
-module.exports = class Rule {
-  constructor(chatId) {
+export default class Rule {
+  chatId: number;
+
+  constructor(chatId: number) {
     this.chatId = Number(chatId);
   }
 
-  async getRule(id) {
+  async getRule(id: string) {
     return await listModel.findById(id);
   }
 
-  async ruleList(skip) {
+  async ruleList(skip: number) {
     return await listModel.find({ chatid: this.chatId }).skip(skip).limit(6);
   }
 
@@ -34,27 +36,27 @@ module.exports = class Rule {
     return await listModel.find({ chatid: this.chatId }).countDocuments();
   }
 
-  async addRule(rule, r) {
-    const n = await this.rulesNumber();
+  async addRule(rule: string, r: string) {
+    const n: number = await this.rulesNumber();
+
     if (n === 50) {
       throw '';
     }
 
-    let number = await headModel.findById('0');
-
-    number.empty === null ? number.empty = [] : 1;
-    let n1;
+    let number: any = await headModel.findById('0');
+    number.empty = number.empty ?? [];
+    let n1: string;
 
     if (number.empty.length > 0) {
       n1 = number.empty.pop();
       await headModel.findByIdAndUpdate('0', { empty: number.empty });
     } else {
-      n1 = Number(number.big) + 1;
+      n1 = String(Number(number.big) + 1);
       await headModel.findByIdAndUpdate('0', { big: String(n) });
     }
 
     await new listModel({
-      _id: String(n1),
+      _id: n1,
       chatid: this.chatId,
       rule: rule,
       return: r
@@ -65,25 +67,25 @@ module.exports = class Rule {
 
   async allRules() {
     try {
-      const list = await listModel.find({ chatid: this.chatId });
+      const list: object[] = await listModel.find({ chatid: this.chatId });
       return list;
     } catch (e) {
-      console.err(e);
+      console.error(e);
     }
   }
 
-  async delRule(id) {
-    const empty = await headModel.findById('0');
-    empty.empty === null ? empty.empty = [] : 1;
+  async delRule(id: string) {
+    const empty: any = await headModel.findById('0');
+    empty.empty = empty.empty ?? [];
     empty.empty.push(id);
     await headModel.findByIdAndUpdate('0', { empty: empty.empty });
     await listModel.findByIdAndRemove(id);
   }
 
   async deleteAll() {
-    const empty = await headModel.findById('0');
-    empty.empty === null ? empty.empty = [] : 1;
-    const list = await listModel.find({ chatid: this.chatId});
+    const empty: any = await headModel.findById('0');
+    empty.empty = empty.empty ?? [];
+    const list: any[] = await listModel.find({ chatid: this.chatId});
     for (let i = 0; i < list.length; i++) {
       empty.empty.push(list[i]._id);
     }

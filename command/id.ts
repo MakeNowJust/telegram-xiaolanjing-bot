@@ -1,12 +1,14 @@
-module.exports = (ctx) => {
+export default (ctx: any): void => {
   if (ctx.message.text.split(' ')[1]) {
   } else if (ctx.message.reply_to_message) {
-    let extra = '';
+    let extra: string = '';
 
-    if (ctx.message.reply_to_message.document) extra = `*File*
+    if (ctx.message.reply_to_message.document) {
+      extra = `*File*
 File ID: \`${ctx.message.reply_to_message.document.file_id}\`
 File unique ID: \`${ctx.message.reply_to_message.document.file_unique_id}\`
 File size: \`${ctx.message.reply_to_message.document.file_size}\``;
+    }
 
     ctx.replyWithMarkdown(`*Message*
 User ID: \`${ctx.from.id}\`

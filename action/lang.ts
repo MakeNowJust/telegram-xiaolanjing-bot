@@ -1,8 +1,13 @@
-const { Markup } = require('telegraf');
+import { Markup } from 'telegraf';
 
-module.exports = (ctx) => {
+interface Lang {
+  cn: string;
+  en: string;
+}
+
+export default (ctx: any) => {
   ctx.answerCbQuery();
-  const lang = {
+  const lang: Lang = {
     'cn': '',
     'en': '',
   };

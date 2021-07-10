@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "built",
+    "module": "CommonJS",
+    "moduleResolution": "Node"
+  },
+  "files": [
+    "index.ts"
+  ],
+  "include": [
+    "xiaolanjing.d.ts"
+  ]
+}

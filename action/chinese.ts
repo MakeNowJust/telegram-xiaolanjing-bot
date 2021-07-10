@@ -1,12 +1,14 @@
-const { Markup } = require('telegraf');
+import { Markup } from 'telegraf';
 
-module.exports = async (ctx) => {
+export default async (ctx: any) => {
   ctx.i18n.locale('zh-hans');
   ctx.answerCbQuery(ctx.i18n.t('sls'));
   ctx.editMessageText(ctx.i18n.t('sl'), {
-    ...Markup.inlineKeyboard([
+    ...Markup.inlineKeyboard([[
       Markup.button.callback(`🇨🇳中文 ✔️`, 'chinese'),
       Markup.button.callback(`🇬🇧English`, 'english')
-    ])
+    ], [
+      Markup.button.callback('返回', 'back')
+    ]])
   });
 }

@@ -14,13 +14,18 @@
 
 ### 使用方法
 
-请填写 config.js 中的配置。
+请先填写 config.ts 中的配置。
 
 ```bash
 $ git clone https://github.com/lihai2333/telegram-xiaolanjing-bot
 $ cd telegram-xiaolanjing-bot/
 $ # 安装依赖
-$ npm install # or yarn install
+$ npm install --global typescript
+$ npm install --force
+$ # 编译
+$ tsc 
+$ cp lib/model built/model && cp lib/user.dict built/user.dict && cp locales/ built/locales
+$ cd built
 $ # 运行小蓝鲸
 $ node index.js
 ```

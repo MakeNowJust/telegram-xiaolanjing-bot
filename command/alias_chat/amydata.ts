@@ -1,6 +1,6 @@
-const Chat = require('./../../lib/chat.js');
+import Chat from './../../lib/chat';
 
-module.exports = async (ctx) => {
+export default async (ctx: any) => {
   if (ctx.chat.type !== 'private') {
     ctx.reply(ctx.i18n.t('individual'), { reply_to_message_id: ctx.message.message_id });
     return;
@@ -8,7 +8,7 @@ module.exports = async (ctx) => {
     
   const chat = await ctx.reply(ctx.i18n.t('Querying'), { reply_to_message_id: ctx.message.message_id })
 
-  const user = await new Chat().checkUser(ctx.message.from.id);
+  const user: any = await new Chat().checkUser(ctx.message.from.id);
 
   if (user !== null) {
     ctx.telegram.editMessageText(

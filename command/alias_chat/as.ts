@@ -1,6 +1,6 @@
-const Chat = require('./../../lib/chat.js');
+import Chat from './../../lib/chat';
 
-module.exports = async (ctx) => {
+export default async (ctx: any) => {
   if (ctx.chat.type !== 'private') {
     ctx.reply(ctx.i18n.t('individual'), { reply_to_message_id: ctx.message.message_id });
     return;
@@ -13,7 +13,6 @@ module.exports = async (ctx) => {
 
   if (!(code && (message || ctx.message.reply_to_message))) {
     ctx.replyWithMarkdown(ctx.i18n.t('asHelp'), { reply_to_message_id: ctx.message.message_id });
-
     return;
   }
 
@@ -22,14 +21,14 @@ module.exports = async (ctx) => {
     return;
   }
 
-  const user = await new Chat().checkUser(userid);
+  const user: any = await new Chat().checkUser(userid);
 
   if (!user) {
     ctx.replyWithMarkdown(ctx.i18n.t('noAccount'), { reply_to_message_id: ctx.message.message_id });
     return;
   }
-    
-  const c = await new Chat().getId(code);
+
+  const c: any = await new Chat().getId(code);
 
   if (c === null) {
     ctx.reply(ctx.i18n.t('noCode', { code: code }), { reply_to_message_id: ctx.message.message_id });

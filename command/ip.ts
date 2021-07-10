@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
-const net = require('net');
+import * as fetch from 'node-fetch';
+import * as net from 'net';
 
-module.exports = (ctx) => {
+export default (ctx: any): void => {
   const text = ctx.message.text.replace(/\s{2,}/, ' ').split(' ');
 
   if (text[1]) {

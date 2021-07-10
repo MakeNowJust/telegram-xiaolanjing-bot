@@ -1,15 +1,15 @@
-const Chat = require('./../../lib/chat.js');
+import Chat from './../../lib/chat';
 
-module.exports = async (ctx) => {
+export default async (ctx: any) => {
   if (ctx.chat.type !== 'private') {
     ctx.reply(ctx.i18n.t('individual'), { reply_to_message_id: ctx.message.message_id });
     return;
   }
     
-  const code = ctx.message.text.replace(/\s{2,}/, ' ').split(' ')[1];
-  const userid = ctx.message.from.id;
+  const code: string = ctx.message.text.replace(/\s{2,}/, ' ').split(' ')[1];
+  const userid: number = ctx.message.from.id;
 
-  const already = new Chat().checkUser(userid);
+  const already: object = await new Chat().checkUser(userid);
 
   if (already) {
     ctx.reply(ctx.i18n.t('alreadyR'), { reply_to_message_id: ctx.message.message_id });

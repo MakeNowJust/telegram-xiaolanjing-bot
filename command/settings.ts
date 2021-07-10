@@ -1,6 +1,10 @@
-const { Markup } = require('telegraf');
+import { Markup } from 'telegraf';
 
-module.exports = async (ctx) => {
+interface Member {
+  status: string;
+}
+
+export default async (ctx: any) => {
   if (ctx.chat.type === 'private') {
     ctx.reply('点击下面的按钮设置小蓝鲸', {
       reply_to_message_id: ctx.message.message_id,
@@ -11,7 +15,7 @@ module.exports = async (ctx) => {
     return;
   }
 
-  const member = await ctx.getChatMember(ctx.message.from.id);
+  const member: Member = await ctx.getChatMember(ctx.message.from.id);
 
   if (!['administrator', 'creator'].includes(member.status)) {
     ctx.reply('点击下面的按钮设置小蓝鲸', {

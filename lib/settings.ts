@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/xiaolanjing', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 const sSchema = mongoose.Schema({
@@ -8,9 +8,11 @@ const sSchema = mongoose.Schema({
 
 const sModel = conn.model('settings', sSchema);
 
-module.exports = class Settings {
-  constructor(chatId) {
-    this.chatId = Number(chatId);
+export default class Settings {
+  chatId: number;
+
+  constructor(chatId: number) {
+    this.chatId = chatId;
   }
 
   async getS() {
@@ -32,7 +34,7 @@ module.exports = class Settings {
     }).save();
   }
 
-  async updateS(obj) {
+  async updateS(obj: object) {
     await sModel.updateOne({ chatid: this.chatId }, obj);
   }
 }

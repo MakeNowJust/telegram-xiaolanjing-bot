@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');                      const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/xiaolanjing', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+import * as mongoose from 'mongoose';
+const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/xiaolanjing', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 const chatSchema = mongoose.Schema({
   userid: Number,
@@ -7,9 +8,9 @@ const chatSchema = mongoose.Schema({
 
 const chatModel = conn.model('chat', chatSchema);
 
-module.exports = class Chat {
+export default class Chat {
   // 创建用户
-  async touchUser(userid, code) {
+  async touchUser(userid: number, code: string) {
     await new chatModel({
       userid,
       code
@@ -17,12 +18,12 @@ module.exports = class Chat {
   }
 
   // 检查用户
-  async checkUser(userid) {
+  async checkUser(userid: number) {
     return await chatModel.findOne({ userid });
   }
 
   // 获取目标用户
-  async getId(code) {
+  async getId(code: string) {
     return await chatModel.findOne({ code });
   }
 };
