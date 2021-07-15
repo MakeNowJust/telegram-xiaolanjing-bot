@@ -30,7 +30,17 @@ function version(number: number): number {
 }
 
 export default async (ctx: any) => {
+  if (ctx.chat.type !== 'private') {
+    ctx.reply(ctx.i18n.t('individual'), { reply_to_message_id: ctx.message.message_id });
+    return;
+  }
+
   const content: string = ctx.message.text.slice(ctx.message.text.indexOf(' ') + 1);
+
+  if (content === '/qrcode') {
+    ctx.replyWithMarkdown(ctx.i18n.t('qrHelp'), { reply_to_message_id: ctx.message.message_id });
+    return;
+  }
 
   if (isNaN(+content.slice(-1))) {
     ctx.reply(ctx.i18n.t('noVersion'), { reply_to_message_id: ctx.message.message_id });
@@ -50,7 +60,5 @@ export default async (ctx: any) => {
     } else {
       qr(ctx, content);
     }
-  } else {
-    ctx.replyWithMarkdown(ctx.i18n.t('qrHelp'), { reply_to_message_id: ctx.message.message_id });
   }
 }

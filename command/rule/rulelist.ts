@@ -36,11 +36,11 @@ export default async (ctx: any) => {
 
       if (number < 0) break;
 
-      msg += `${i + 1}. \`${results[i]._id}\` ${results[i].rule}=>${results[i]['return']}
+      msg += `${i + 1}. ${results[i]._id} ${results[i].rule}=>${results[i]['return']}
 `;
     }
 
-    ctx.replyWithMarkdown(msg, {
+    ctx.reply(msg, {
       reply_to_message_id: ctx.message.message_id,
       ...page(results.length)
     });
