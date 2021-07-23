@@ -1,17 +1,19 @@
-import QRCode from 'qrcode';
-import config from './../config';
+import * as QRCode from 'qrcode';
 
 function qr(ctx: any, content: string): void {
   ctx.replyWithChatAction('upload_photo');
 
   let msg: string = '';
 
-  for (let i: number = 0; i < content.slice(0, -1).length; i++) {
+  for (let i: number = 0; i < content.length - content.lastIndexOf(' ') - 1; i++) {
     msg += `${content.slice(0, -1)[i]} `;
   }
 
-  QRCode.toBuffer(msg, { version: version(Number(content.slice(-1))) }, (err: string, uri: any): void => {
-    if (err) console.log(err);
+  QRCode.toBuffer(msg, { version: version(Number(content.slice(-1))) }, (err: Error, uri: any): void => {
+    if (err) {
+      ctx.reply(String(err), { reply_to_message_id: ctx.message.message_id });
+      return;
+    }
 
     ctx.replyWithPhoto({
       source: uri
@@ -42,23 +44,9 @@ export default async (ctx: any) => {
     return;
   }
 
-  if (isNaN(+content.slice(-1))) {
+  if (isNaN(+content.split(' ').slice(-1))) {
     ctx.reply(ctx.i18n.t('noVersion'), { reply_to_message_id: ctx.message.message_id });
   } else if (content.toString()) {
-    if (ctx.chat.type !== 'private') {
-      const chat: any = await ctx.getChat();
-      if (chat.permissions.can_send_media_messages) {
-        qr(ctx, content);
-      } else {
-        const member: any = await ctx.getChatMember(config.token.split(':')[0])
-        if (member.status === 'administrator') {
-          qr(ctx, content);
-        } else {
-          ctx.reply(ctx.i18n.t('notSendMedia'), { reply_to_message_id: ctx.message.message_id });
-        }
-      }
-    } else {
-      qr(ctx, content);
-    }
+    qr(ctx, content);
   }
 }

@@ -13,6 +13,11 @@ const record: object = {
 };
 
 export default (ctx: any): void => {
+  if (ctx.chat.type !== 'private') {
+    ctx.reply(ctx.i18n.t('individual'), { reply_to_message_id: ctx.message.message_id });
+    return;
+  }
+
   let text = ctx.message.text.split(' ');
 
   if (text[1]) {

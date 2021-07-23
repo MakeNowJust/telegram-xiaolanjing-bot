@@ -2,6 +2,11 @@ import * as fetch from 'node-fetch';
 import * as net from 'net';
 
 export default (ctx: any): void => {
+  if (ctx.chat.type !== 'private') {
+    ctx.reply(ctx.i18n.t('individual'), { reply_to_message_id: ctx.message.message_id });
+    return;
+  }
+
   const text = ctx.message.text.replace(/\s{2,}/, ' ').split(' ');
 
   if (text[1]) {
