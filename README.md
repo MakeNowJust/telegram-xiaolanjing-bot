@@ -22,10 +22,8 @@ $ cd telegram-xiaolanjing-bot/
 $ # 安装依赖
 $ npm install --global typescript
 $ npm install --force
-$ # 编译
-$ tsc 
-$ cp lib/model built/model && cp lib/user.dict built/user.dict && cp locales/ built/locales
-$ cd built
+$ # 部署
+$ make build
 $ # 运行小蓝鲸
-$ node index.js
+$ node built/index.js
 ```
